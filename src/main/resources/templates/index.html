@@ -1,10 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <title>Bookstore</title>
 </head>
 <body>
-$END$
+<table>
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Date Added</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.name}"></td>
+        <td th:text="${book.author}"></td>
+        <td th:text="${book.dateAdded}"></td>
+    </tr>
+    </tbody>
+</table>
+<div>
+    <span th:if="${currentPage > 1}">
+        <a th:href="@{'?pageNo=' + ${currentPage - 1}}">Previous</a>
+    </span>
+    <span th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
+        <a th:href="@{'?pageNo=' + ${pageNumber}}"
+           th:text="${pageNumber}"
+           th:class="${pageNumber == currentPage ? 'current' : ''}"></a>
+    </span>
+    <span th:if="${currentPage < totalPages}">
+        <a th:href="@{'?pageNo=' + ${currentPage + 1}}">Next</a>
+    </span>
+</div>
 </body>
 </html>
