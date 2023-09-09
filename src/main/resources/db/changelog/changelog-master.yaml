@@ -2,3 +2,6 @@ databaseChangeLog:
   - include:
       file: /changes/1.0-create-books-table.sql
       relativeToChangelogFile: true
+  - include:
+      file: /changes/2.0-add-price-column.sql
+      relativeToChangelogFile: true

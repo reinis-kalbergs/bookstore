@@ -2,6 +2,7 @@ package com.example.bookstore.controller;
 
 import com.example.bookstore.dto.BookCreateRequest;
 import com.example.bookstore.dto.BookDTO;
+import com.example.bookstore.dto.BookUpdateRequest;
 import com.example.bookstore.service.BookService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +25,10 @@ public class BookController {
     @GetMapping
     public List<BookDTO> listBooks() {
         return bookService.listBooks();
+    }
+
+    @PutMapping("/{bookId}")
+    public BookDTO updateBook(@PathVariable Long bookId, @RequestBody @Valid BookUpdateRequest request) {
+        return bookService.updateBook(bookId, request);
     }
 }

@@ -2,6 +2,7 @@ package com.example.bookstore.service;
 
 import com.example.bookstore.dto.BookCreateRequest;
 import com.example.bookstore.dto.BookDTO;
+import com.example.bookstore.dto.BookUpdateRequest;
 import com.example.bookstore.entity.Book;
 import com.example.bookstore.repository.BookRepository;
 import jakarta.transaction.Transactional;
@@ -46,4 +47,27 @@ public class BookService {
         return bookRepository.findAll(PageRequest.of(pageNo - 1, pageSize));
     }
 
+    public BookDTO updateBook(Long bookId, BookUpdateRequest request) {
+        Optional<Book> existingBook = bookRepository.findById(bookId);
+        if (existingBook.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No book found with id: " + bookId);
+        }
+        Book bookToUpdate = existingBook.get();
+        updateBookFields(bookToUpdate, request);
+
+        Book updatedBook = bookRepository.save(bookToUpdate);
+        return modelMapper.map(updatedBook, BookDTO.class);
+    }
+
+    private void updateBookFields(Book book, BookUpdateRequest request){
+        if (request.getName() != null) {
+            book.setName(request.getName());
+        }
+        if (request.getAuthor() != null) {
+            book.setAuthor(request.getAuthor());
+        }
+        if (request.getPrice() != null) {
+            book.setPrice(request.getPrice());
+        }
+    }
 }

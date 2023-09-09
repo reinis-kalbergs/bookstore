@@ -89,3 +89,36 @@ The application uses Spring Boot, JPA, Thymeleaf, Liquibase, and can switch betw
     - Using Maven: Run `mvn spring-boot:run` in the terminal.
 6. Access the web application via `http://localhost:8080/`.
 7. H2 console (if H2 is enabled) can be accessed at `http://localhost:8080/h2-console`.
+
+---
+
+## Bookstore Application - Version 2.0
+
+The second iteration of the Bookstore application comes with several improvements and new features. Here's what's new in version 2.0:
+
+### 1. Price Field for Books:
+Books now have an associated price. This was added to cater to the requirements of integrating with an e-commerce system. To support this, a new changeset was added.
+
+
+### 2. Book Updating Endpoint:
+A new endpoint was added to the REST API, allowing updates to book entries. This will mostly be used to update book prices but is versatile enough to support other changes:
+
+```http
+PUT /api/books/{bookId}
+```
+
+### 3. REST Webservice for E-commerce System Integration:
+
+To facilitate the integration with an e-commerce platform, an already existing REST endpoint will be used:
+
+```http
+GET /api/books
+```
+
+The e-commerce system can send a GET request to this endpoint (http://[bookstore-url]/api/books) every midnight at 00:00 EET to fetch the latest list of books and their prices.
+
+### Alternative Approach for E-commerce System Integration:
+
+While the current system uses a **Pull Model** for integration, another strategy could be the **Push Model**. In this model, the bookstore would actively notify the e-commerce system about any changes, especially regarding prices.
+
+This approach has its merits, such as real-time updates and reduced load on the bookstore server. However, given the already established and functioning pull strategy, I chose this path.

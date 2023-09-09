@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Component
@@ -32,7 +33,7 @@ public class BookDataInitializer implements CommandLineRunner {
             } else {
                 log.info("Generating 100 fake books");
                 for (int i = 1; i <= 100; i++) {
-                    BookCreateRequest request = new BookCreateRequest("Book " + i, "Author " + i);
+                    BookCreateRequest request = new BookCreateRequest("Book " + i, "Author " + i, BigDecimal.valueOf(i + 0.99));
                     bookService.createBook(request);
                 }
                 log.info("Fake data generation is complete");
